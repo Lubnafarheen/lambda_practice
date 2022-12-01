@@ -2,6 +2,7 @@ package se.lexicon;
 
 import se.lexicon.data.DataStorage;
 import se.lexicon.model.Gender;
+import se.lexicon.model.Person;
 
 import java.time.LocalDate;
 
@@ -63,8 +64,9 @@ public class Exercises {
      */
     public static void exercise6(String message){
         System.out.println(message);
-        storage.findOneAndMapToString(person ->{ person.getGender()==Gender.MALE))
-                };
+        storage.findManyAndMapEachToString(
+                person -> person.getGender() == Gender.MALE && person.getFirstName().startsWith("E"),
+                Person::toString).forEach(System.out::println);
         System.out.println("----------------------");
     }
 
@@ -85,9 +87,7 @@ public class Exercises {
      */
     public static void exercise8(String message){
         System.out.println(message);
-        //Write your code here
-        // TODO: exercise8
-
+        storage.findAndDo(person -> person.getFirstName().equals("Ulf"), System.out::println );
         System.out.println("----------------------");
     }
 
