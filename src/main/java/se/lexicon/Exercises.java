@@ -7,6 +7,9 @@ import se.lexicon.model.Person;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Comparator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Exercises {
 
@@ -36,7 +39,10 @@ public class Exercises {
      */
     public static void exercise3(String message) {
         System.out.println(message);
-        storage.findMany(person -> person.getBirthDate().isAfter(LocalDate.parse("1999-01-01"))).forEach(System.out::println);
+        Predicate<Person> filterByMale = p -> p.getGender().equals(Gender.MALE);
+        Predicate<Person> filterByFirstNameL = p -> p.getFirstName().startsWith("L");
+
+       List<Person> filteredPerson = storage.findMany(filterByFirstNameL);
         System.out.println("----------------------");
     }
 
@@ -55,9 +61,12 @@ public class Exercises {
             “Name: Nisse Nilsson born 1999-09-09”. Use findOneAndMapToString().
      */
     public static void exercise5(String message) {
+
         System.out.println(message);
-        System.out.println(storage.findOneAndMapToString(person -> person.getId() == 456, person -> person.getFirstName() + " " + person.getLastName() + "" +
-                "born" + person.getBirthDate()));
+        Predicate<Person> filterById456 = person -> person.getId() == 456;
+        Function<Person, String> mapPersonToString = person -> person.getFirstName() + " " + person.getLastName() + "" + "born" + person.getBirthDate();
+
+        System.out.println(storage.findOneAndMapToString(filterById456 , mapPersonToString));
         System.out.println("----------------------");
     }
 
